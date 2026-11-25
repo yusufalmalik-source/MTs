@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Koreksi LJK Otomatis</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#1f7a4d">
+<style>
+:root{color-scheme:light dark;--bg:#f3f6f3;--paper:#fff;--ink:#14211a;--mute:#5b6b62;--line:#cfe0d5;--g:#1f7a4d;--gs:#e3f1e8;--r:#c62828;--rs:#fde7e7;--a:#b26a00;--as:#fff3dc}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1512;--paper:#18211c;--ink:#e6efe9;--mute:#94a69b;--line:#2b3a31;--g:#4cc38a;--gs:#173326;--r:#ff6b6b;--rs:#3a1a1a;--a:#ffb547;--as:#3a2c10}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#0f1512;--paper:#18211c;--ink:#e6efe9;--mute:#94a69b;--line:#2b3a31;--g:#4cc38a;--gs:#173326;--r:#ff6b6b;--rs:#3a1a1a;--a:#ffb547;--as:#3a2c10}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;overflow-x:clip}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.w{max-width:1000px;margin:0 auto;padding:clamp(16px,3vw,36px) max(4vw,14px)}
+h1{font-size:clamp(26px,4vw,36px);line-height:1.1;margin:0 0 4px}h2{font-size:19px;margin:0 0 6px}
+.sub,.hint{color:var(--mute);font-size:14px;margin:0 0 14px}
+.card{background:var(--paper);border:1.5px solid var(--line);border-radius:14px;padding:clamp(14px,2.4vw,22px);margin-bottom:16px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+button,.btn{font:600 15px system-ui,sans-serif;min-height:44px;padding:0 16px;border-radius:10px;border:1.5px solid var(--g);background:var(--paper);color:var(--g);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.pri{background:var(--g);color:var(--paper)}
+:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+textarea,select,input[type=text]{font:15px system-ui,sans-serif;border:1.5px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);padding:6px 8px}
+textarea{width:100%;min-height:96px;font-family:ui-monospace,monospace;letter-spacing:.5px}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+.drop{display:block;border:2px dashed var(--g);border-radius:14px;padding:22px 14px;text-align:center;background:var(--gs);cursor:pointer;margin-top:10px;font-weight:600;color:var(--g)}
+.cam{width:100%;min-height:60px;font-size:18px}
+.res{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 16px;align-items:start}
+.sc{text-align:right}.sc b{display:block;font-size:42px;line-height:1;color:var(--g)}.sc b.low{color:var(--r)}.sc small{color:var(--mute)}
+.strip{width:100%;max-width:560px;border:1px solid var(--line);border-radius:6px;background:#fff;display:block}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;align-items:center}.meta input{flex:1 1 200px}
+.chip{font-size:13px;font-weight:600;padding:3px 9px;border-radius:99px;background:var(--gs);color:var(--g)}.chip.r{background:var(--rs);color:var(--r)}.chip.a{background:var(--as);color:var(--a)}
+.ans{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px;margin-top:12px}
+.c{border:1.5px solid var(--line);border-radius:8px;padding:2px;text-align:center;font-size:11px;line-height:1.2}
+.c b{display:block;color:var(--mute);font-weight:600}.c select{width:100%;border:0;background:transparent;color:inherit;font-weight:700;text-align:center;padding:0;font-size:14px}
+.c i{display:block;font-style:normal;font-size:10px;color:var(--mute)}
+.ok{background:var(--gs);border-color:var(--g);color:var(--g)}.no{background:var(--rs);border-color:var(--r);color:var(--r)}.hf{background:var(--as);color:var(--a)}.fl{box-shadow:0 0 0 2px var(--a)}
+@media(max-width:640px){.ans{grid-template-columns:repeat(5,minmax(0,1fr))}.res{grid-template-columns:minmax(0,1fr)}.sc{text-align:left}}
+.err{color:var(--r);font-weight:600}
+.sc2{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:15px}th,td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}.n{text-align:right;white-space:nowrap}
+.lg{font-size:13px;color:var(--mute);margin-top:6px}
+.toast{position:fixed;left:50%;top:calc(14px + env(safe-area-inset-top,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none}.toast.s{opacity:1}
+</style></head><body><div class="w">
+<h1>Koreksi LJK otomatis</h1>
+<p class="sub">LJK Sumatif Akhir Semester MTs Kemenag Kab. Malang, 50 soal. Foto diproses di browser ini dan tidak dikirim ke mana pun.</p>
+<section class="card"><h2>1. Mata pelajaran dan kunci jawaban</h2>
+<div class="row" style="justify-content:flex-start"><select id="sub" aria-label="Mata pelajaran" style="flex:1 1 200px;min-height:44px"></select><button id="addS">Tambah mapel</button><button id="delS">Hapus</button></div>
+<input type="text" id="sname" aria-label="Nama mata pelajaran" placeholder="Nama mata pelajaran" style="width:100%;margin-top:10px">
+<p class="hint" style="margin:10px 0 6px">Ketik kunci manual: 50 jawaban dipisah spasi, No. 41–45 dua huruf (AB), No. 46–50 boleh T/F atau B/S. Atau foto LJK yang sudah diisi guru dengan jawaban benar.</p>
+<textarea id="key" aria-label="Kunci jawaban"></textarea>
+<div class="row" style="justify-content:flex-start;margin-top:8px"><label class="btn" for="kf">Foto LJK kunci</label><input type="file" id="kf" accept="image/*" capture="environment"><label style="font-size:14px">Nilai No. 41–45 <select id="mode"><option value="x">Harus persis sama</option><option value="h">Parsial (½ jika 1 benar)</option></select></label></div>
+<p class="hint" id="keyInfo" style="margin:6px 0 0"></p></section>
+<section class="card"><h2>2. Foto lembar jawaban</h2>
+<p class="hint">Foto tegak (potret) dari atas, cahaya rata, keempat titik hitam di pojok ikut masuk. Bisa pilih banyak foto.</p>
+<label class="btn pri cam" for="cam">Scan pakai kamera</label><input type="file" id="cam" accept="image/*" capture="environment">
+<label class="drop" for="files">Pilih atau seret foto LJK ke sini</label><input type="file" id="files" accept="image/*" multiple></section>
+<section id="out"></section>
+<section class="card" id="rc" hidden><div class="row"><h2>3. Rekap nilai</h2><div class="row"><button class="pri" id="cp">Salin untuk Excel</button><button id="clr">Hapus semua</button></div></div>
+<div class="sc2"><table id="tb"></table></div></section>
+<div class="toast" id="ts"></div></div>
+<script>
+//CORE
+const DST=[[250,100],[750,100],[750,1350],[250,1350]],GX=[137.5,308,481.5,653.5,825.5],DX=23.4,Y0=1043.5,DY=28.44,RB=6,NB=[40,322,790,388];
+function homog(s,d){const A=[],b=[];for(let i=0;i<4;i++){const[x,y]=s[i],[u,v]=d[i];A.push([x,y,1,0,0,0,-u*x,-u*y]);b.push(u);A.push([0,0,0,x,y,1,-v*x,-v*y]);b.push(v)}
+const n=8;for(let i=0;i<n;i++){let p=i;for(let k=i+1;k<n;k++)if(Math.abs(A[k][i])>Math.abs(A[p][i]))p=k;[A[i],A[p]]=[A[p],A[i]];[b[i],b[p]]=[b[p],b[i]];
+for(let k=i+1;k<n;k++){const f=A[k][i]/A[i][i];for(let j=i;j<n;j++)A[k][j]-=f*A[i][j];b[k]-=f*b[i]}}
+const x=Array(n);for(let i=n-1;i>=0;i--){let s=b[i];for(let j=i+1;j<n;j++)s-=A[i][j]*x[j];x[i]=s/A[i][i]}return x.concat(1)}
+const ap=(h,x,y)=>{const w=h[6]*x+h[7]*y+1;return[(h[0]*x+h[1]*y+h[2])/w,(h[3]*x+h[4]*y+h[5])/w]};
+const gry=(d,i)=>.299*d[i]+.587*d[i+1]+.114*d[i+2];
+function findDots(img){const{width:W,height:H,data:d}=img,L=Math.max(W,H),g=new Float32Array(W*H);
+for(let i=0;i<W*H;i++)g[i]=gry(d,4*i);
+const I=new Float64Array((W+1)*(H+1));for(let y=0;y<H;y++){let s=0;for(let x=0;x<W;x++){s+=g[y*W+x];I[(y+1)*(W+1)+x+1]=I[y*(W+1)+x+1]+s}}
+const w=Math.round(L/25),mean=(x,y)=>{const x0=Math.max(0,x-w),y0=Math.max(0,y-w),x1=Math.min(W,x+w),y1=Math.min(H,y+w);return(I[y1*(W+1)+x1]-I[y0*(W+1)+x1]-I[y1*(W+1)+x0]+I[y0*(W+1)+x0])/((x1-x0)*(y1-y0))};
+const dk=new Uint8Array(W*H);for(let y=0;y<H;y++)for(let x=0;x<W;x++){const v=g[y*W+x];if(v<130&&v<mean(x,y)*.6)dk[y*W+x]=1}
+const seen=new Uint8Array(W*H),c=[];
+for(let s=0;s<W*H;s++){if(!dk[s]||seen[s])continue;const st=[s];seen[s]=1;let n=0,sx=0,sy=0,x0=W,x1=0,y0=H,y1=0;
+while(st.length){const p=st.pop(),px=p%W,py=(p-px)/W;n++;sx+=px;sy+=py;if(px<x0)x0=px;if(px>x1)x1=px;if(py<y0)y0=py;if(py>y1)y1=py;
+for(const q of[px>0?p-1:-1,px<W-1?p+1:-1,p-W,p+W])if(q>=0&&q<W*H&&dk[q]&&!seen[q]){seen[q]=1;st.push(q)}}
+const bw=x1-x0+1,bh=y1-y0+1,dd=(bw+bh)/2;
+if(dd>=L*.012&&dd<=L*.04&&bw/bh>.7&&bw/bh<1.45&&n/(bw*bh)>.6)c.push([sx/n,sy/n,n])}
+const reg=[[0,.4,0,.25],[.6,1,0,.25],[.6,1,.75,1],[0,.4,.75,1]];
+const p=reg.map(([a,b,e,f])=>c.filter(q=>q[0]>=a*W&&q[0]<=b*W&&q[1]>=e*H&&q[1]<=f*H).sort((x,y)=>y[2]-x[2])[0]);
+if(p.some(x=>!x))return null;
+const wd=Math.hypot(p[1][0]-p[0][0],p[1][1]-p[0][1]),ht=Math.hypot(p[3][0]-p[0][0],p[3][1]-p[0][1]);
+return ht/wd>1.6&&ht/wd<4?p:null}
+function readSheet(img,pts){const h=homog(DST,pts),{width:W,height:H,data:d}=img;
+const a=ap(h,250,1000),b=ap(h,750,1000),r=Math.max(2,RB*Math.hypot(b[0]-a[0],b[1]-a[1])/500),res=[];
+for(let q=0;q<50;q++){const g=Math.floor(q/10),row=q%10,opts=q<45?['A','B','C','D']:['B','S'],xs=q<45?[0,1,2,3]:[0,3];
+const vals=xs.map(o=>{const[cx,cy]=ap(h,GX[g]+o*DX,Y0+row*DY);let s=0,n=0;
+for(let y=Math.floor(cy-r);y<=cy+r;y++)for(let x=Math.floor(cx-r);x<=cx+r;x++){if((x-cx)**2+(y-cy)**2>r*r||x<0||y<0||x>=W||y>=H)continue;s+=gry(d,4*(y*W+x));n++}
+return n?s/n:255});res.push({g,opts,vals})}
+const base=[0,1,2,3,4].map(g=>{const v=res.filter(r=>r.g===g).flatMap(r=>r.vals).sort((x,y)=>x-y);return v[v.length>>1]});
+return res.map((r,q)=>{const t=r.vals.map(v=>v/base[r.g]),on=r.opts.filter((o,i)=>t[i]<.78),n=on.length;
+return{ans:on.join(''),flag:t.some(v=>v>=.78&&v<.9)||(q<40||q>44?n>1:n!==2&&n>0)}})}
+function normKey(s){const t=s.trim().toUpperCase().replace(/[,;]/g,' ').split(/\s+/).filter(Boolean);
+return t.map((k,i)=>i>=45?k.replace('T','B').replace('F','S'):k.split('').sort().join(''))}
+//ENDCORE
+const $=s=>document.querySelector(s),SH=[];let uid=0,SU=[],CUR='';
+const DEF='D A A B D C D C D C D B C B B C B A A A D A C B A C A C B C B D C B B D B B C D AB AC CD AC AB T F T T F';
+function ld(){try{SU=JSON.parse(localStorage.getItem('ljk-su')||'[]')}catch(e){SU=[]}if(!SU.length)SU=[{id:'m1',name:'Bahasa Inggris Kelas 9',key:DEF}];CUR=SU[0].id;try{const c=localStorage.getItem('ljk-cur');if(SU.some(s=>s.id===c))CUR=c}catch(e){}}
+function sv(){try{localStorage.setItem('ljk-su',JSON.stringify(SU));localStorage.setItem('ljk-cur',CUR)}catch(e){}}
+const cs=()=>SU.find(s=>s.id===CUR),kOf=sh=>normKey((SU.find(s=>s.id===sh.sid)||cs()).key),sn=sh=>(SU.find(s=>s.id===sh.sid)||{}).name||'';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function gq(q,a,k){if(!a||!k)return 0;const s=a.split('').sort().join('');if(s===k)return 1;
+if($('#mode').value==='h'&&q>40&&q<=45&&s.length===1&&k.includes(s))return .5;return 0}
+function grade(sh){sh.k=kOf(sh);let p=0,w=0,b=0;sh.ans.forEach((a,i)=>{const s=gq(i+1,a,sh.k[i]);p+=s;if(!a)b++;else if(s<1)w++});sh.pts=p;sh.w=w;sh.b=b;sh.nilai=Math.round(p/50*1000)/10}
+function setKey(){const u=cs();u.key=$('#key').value;sv();const k=normKey(u.key);$('#keyInfo').innerHTML=u.key.includes('?')?'<span class="err">Ada tanda ? : jawaban belum terbaca, isi manual.</span>':k.length===50?'Kunci terisi 50 soal.':'<span class="err">Kunci baru '+k.length+' dari 50 soal.</span>';SH.forEach(x=>{if(!x.err){grade(x);draw(x)}});recap()}
+function fillUI(){$('#sub').innerHTML=SU.map(u=>'<option value="'+u.id+'"'+(u.id===CUR?' selected':'')+'>'+esc(u.name||'Tanpa nama')+'</option>').join('');$('#sname').value=cs().name;$('#key').value=cs().key;setKey()}
+function opts(q){return q<=40?['','A','B','C','D']:q<=45?['','A','B','C','D','AB','AC','AD','BC','BD','CD']:['','B','S']}
+function draw(sh){let el=document.getElementById('s'+sh.id);if(!el){el=document.createElement('div');el.id='s'+sh.id;$('#out').appendChild(el)}
+if(sh.err){el.innerHTML='<div class="card"><b>'+esc(sh.file)+'</b><p class="err">'+esc(sh.err)+'</p></div>';return}
+const cells=sh.ans.map((a,i)=>{const q=i+1,s=gq(q,a,sh.k[i]),o=opts(q);if(!o.includes(a))o.push(a);
+return'<div class="c '+(s===1?'ok':s>0?'hf':'no')+(sh.fl[i]&&!sh.ed[i]?' fl':'')+'"><b>'+q+'</b><select data-i="'+i+'" data-id="'+sh.id+'" aria-label="Jawaban soal '+q+'">'+o.map(x=>'<option'+(x===a?' selected':'')+' value="'+x+'">'+(x||'–')+'</option>').join('')+'</select><i>kunci '+(sh.k[i]||'?')+'</i></div>'}).join('');
+const nf=sh.fl.filter((f,i)=>f&&!sh.ed[i]).length;
+el.innerHTML='<div class="card"><div class="res"><div><img class="strip" src="'+sh.strip+'" alt="Nama peserta pada LJK"><div class="meta"><input type="text" data-id="'+sh.id+'" data-n="1" placeholder="Nama siswa" value="'+esc(sh.name)+'" aria-label="Nama siswa"><span class="chip">'+esc(sn(sh))+'</span><span class="chip">'+sh.pts+' benar</span><span class="chip r">'+sh.w+' salah</span><span class="chip r">'+sh.b+' kosong</span>'+(nf?'<span class="chip a">'+nf+' perlu dicek</span>':'')+'<button data-del="'+sh.id+'">Hapus</button></div></div><div class="sc"><b class="'+(sh.nilai<75?'low':'')+'">'+sh.nilai+'</b><small>nilai (skala 100)</small></div></div><div class="ans">'+cells+'</div><p class="lg">Hijau benar, merah salah/kosong, bingkai oranye = arsiran ragu, cek di kertas. Pilih jawaban untuk koreksi manual.</p></div>'}
+function recap(){$('#rc').hidden=!SH.length;const ok=SH.filter(s=>!s.err),avg=ok.length?(ok.reduce((a,s)=>a+s.nilai,0)/ok.length).toFixed(1):'–';
+$('#tb').innerHTML='<thead><tr><th>No</th><th>Nama</th><th>Mapel</th><th>File</th><th class="n">Benar</th><th class="n">Salah</th><th class="n">Kosong</th><th class="n">Nilai</th></tr></thead><tbody>'+SH.map((s,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(s.name||'–')+'</td><td>'+esc(sn(s))+'</td><td>'+esc(s.file)+'</td>'+(s.err?'<td colspan="4" class="n err">belum terbaca</td>':'<td class="n">'+s.pts+'</td><td class="n">'+s.w+'</td><td class="n">'+s.b+'</td><td class="n"><b>'+s.nilai+'</b></td>')+'</tr>').join('')+'</tbody><tfoot><tr><td></td><td colspan="6"><b>Rata-rata ('+ok.length+' lembar)</b></td><td class="n"><b>'+avg+'</b></td></tr></tfoot>'}
+async function scan(f){const bm=await createImageBitmap(f),k=Math.min(1,1400/Math.max(bm.width,bm.height)),cv=document.createElement('canvas');cv.width=Math.round(bm.width*k);cv.height=Math.round(bm.height*k);
+const cx=cv.getContext('2d',{willReadFrequently:true});cx.drawImage(bm,0,0,cv.width,cv.height);const img=cx.getImageData(0,0,cv.width,cv.height),p=findDots(img);
+if(!p)throw new Error('Empat titik hitam di pojok tidak ketemu. Foto tegak, seluruh lembar masuk, cahaya rata, lalu coba lagi.');return{img,p}}
+async function proc(f){const sh={id:++uid,sid:CUR,file:f.name,name:'',ed:{}};SH.push(sh);
+try{const{img,p}=await scan(f),r=readSheet(img,p);sh.ans=r.map(x=>x.ans);sh.fl=r.map(x=>x.flag);grade(sh);
+const h=homog(DST,p),sc=document.createElement('canvas');sc.width=560;sc.height=Math.round(560*(NB[3]-NB[1])/(NB[2]-NB[0]));const sx=sc.getContext('2d'),o=sx.createImageData(sc.width,sc.height);
+for(let y=0;y<sc.height;y++)for(let x=0;x<sc.width;x++){const[u,v]=ap(h,NB[0]+x/sc.width*(NB[2]-NB[0]),NB[1]+y/sc.height*(NB[3]-NB[1])),i=4*(Math.round(v)*img.width+Math.round(u)),j=4*(y*sc.width+x);
+if(u>=0&&v>=0&&u<img.width&&v<img.height){o.data[j]=img.data[i];o.data[j+1]=img.data[i+1];o.data[j+2]=img.data[i+2]}o.data[j+3]=255}
+sx.putImageData(o,0,0);sh.strip=sc.toDataURL('image/jpeg',.8)}catch(e){sh.err=e.message||'Gagal membaca foto'}
+draw(sh);recap()}
+async function add(fs){for(const f of fs)await proc(f)}
+$('#files').addEventListener('change',e=>{add(e.target.files);e.target.value=''});
+$('#cam').addEventListener('change',e=>{add(e.target.files);e.target.value=''});
+const dr=document.querySelector('.drop');['dragover','drop'].forEach(n=>dr.addEventListener(n,e=>{e.preventDefault();if(n==='drop')add(e.dataTransfer.files)}));
+$('#key').addEventListener('input',setKey);$('#mode').addEventListener('change',setKey);
+$('#out').addEventListener('change',e=>{const t=e.target,sh=SH.find(s=>s.id==t.dataset.id);if(!sh||t.dataset.i==null)return;sh.ans[+t.dataset.i]=t.value;sh.ed[+t.dataset.i]=1;grade(sh);draw(sh);recap()});
+$('#out').addEventListener('input',e=>{const t=e.target,sh=SH.find(s=>s.id==t.dataset.id);if(sh&&t.dataset.n){sh.name=t.value;recap()}});
+$('#out').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;const i=SH.findIndex(s=>s.id==b.dataset.del);SH.splice(i,1);document.getElementById('s'+b.dataset.del).remove();recap()});
+const ts=m=>{const t=$('#ts');t.textContent=m;t.classList.add('s');setTimeout(()=>t.classList.remove('s'),1800)};
+$('#cp').addEventListener('click',async()=>{const rows=[['No','Nama','Mapel','File','Benar','Salah','Kosong','Nilai',...Array.from({length:50},(_,i)=>'S'+(i+1))]];
+SH.forEach((s,i)=>rows.push(s.err?[i+1,s.name,sn(s),s.file,'','','','belum terbaca']:[i+1,s.name,sn(s),s.file,String(s.pts).replace('.',','),s.w,s.b,String(s.nilai).replace('.',','),...s.ans]));
+try{await navigator.clipboard.writeText(rows.map(r=>r.join('\t')).join('\n'));ts('Tersalin. Tempel di Excel.')}catch(e){ts('Gagal menyalin, coba lagi')}});
+$('#clr').addEventListener('click',()=>{SH.length=0;$('#out').innerHTML='';recap()});
+$('#sub').addEventListener('change',e=>{CUR=e.target.value;sv();fillUI()});
+$('#sname').addEventListener('input',e=>{cs().name=e.target.value;sv();const o=$('#sub').selectedOptions[0];if(o)o.textContent=e.target.value||'Tanpa nama';recap()});
+$('#addS').addEventListener('click',()=>{const id='m'+Date.now();SU.push({id,name:'Mata pelajaran baru',key:''});CUR=id;sv();fillUI();$('#sname').select()});
+$('#delS').addEventListener('click',()=>{if(SU.length<2){ts('Minimal ada satu mapel');return}SU=SU.filter(u=>u.id!==CUR);CUR=SU[0].id;sv();fillUI()});
+$('#kf').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+try{const{img,p}=await scan(f),r=readSheet(img,p);$('#key').value=r.map(x=>x.ans||'?').join(' ');setKey();const n=r.filter(x=>!x.ans||x.flag).length;if(n)$('#keyInfo').innerHTML='<span class="err">'+n+' soal ragu atau kosong, periksa kunci di atas.</span>'}
+catch(er){$('#keyInfo').innerHTML='<span class="err">'+esc(er.message)+'</span>'}});
+ld();fillUI();
+try{if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
+</script></body></html>
